@@ -1,0 +1,61 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MVCCore.Paging.Models
+@model CustomerModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <form asp-action="Index" asp-controller="Home" method="post">
+        <table class="table table-responsive">
+            <tr>
+                <th>CustomerID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Street</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip Code</th>
+            </tr>
+            @foreach (Customer customer in Model.Customers)
+            {
+                <tr>
+                    <td>@customer.customer_id</td>
+                    <td>@customer.first_name</td>
+                    <td>@customer.last_name</td>
+                    <td>@customer.street</td>
+                    <td>@customer.city</td>
+                    <td>@customer.state</td>
+                    <td>@customer.zip_code</td>
+                </tr>
+            }
+        </table>
+       
+        <table class="table table-responsive">
+            <tr>
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <td>
+                        @if (i != Model.CurrentPageIndex)
+                        {
+                            <a href="javascript:PagerClick(@i);">@i</a>
+                        }
+                        else
+                        {
+                            <span>@i</span>
+                        }
+                    </td>
+                }
+            </tr>
+        </table>
+        <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />
+    </form>
+   
+        <script type="text/javascript">
+            function PagerClick(index) {
+                document.getElementById("hfCurrentPageIndex").value = index;
+                document.forms[0].submit();
+            }
+        </script>
+    
+</div>
